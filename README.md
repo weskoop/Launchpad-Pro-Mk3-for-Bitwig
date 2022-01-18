@@ -12,7 +12,7 @@ Obviously there are some differences to Ableton, but Bitwig is different. Print 
 
 ## Setup
 
-- Download the latest release on this page.
+- Download the [latest release](https://github.com/weskoop/Launchpad-Pro-Mk3-for-Bitwig/releases/download/v0.0.69/Launchpad-Pro-Mk3-for-Bitwig_0.0.69.zip) from the releases section on the right of this page.
 - Unzip and copy `Launchpad-Pro-Mk3-for-Bitwig_x.x.x` folder to your Bitwig **My Controller Scripts** location.
 - Go to **Bitwig** > **Settings** > **Controllers**.
   - Add the Controller (Novation Launchpad Mk3).
