@@ -16,7 +16,7 @@ Obviously there are some differences to Ableton, but Bitwig is different. Print 
 - Unzip and copy `Launchpad-Pro-Mk3-for-Bitwig_x.x.x` folder to your Bitwig **My Controller Scripts** location.
 - Go to **Bitwig** > **Settings** > **Controllers**.
   - Add the Controller (Novation Launchpad Mk3).
-  - Depending on the OS, your device names maybe different
+  - Depending on the OS, your device names may differ.
     - **macOS**: Select "Launchpad Pro MK3 LPProMK3 DAW" device in the first slot of input and output, and "Launchpad Pro MK3 LPProMK3 MIDI" device in the 2nd slot of each pair.
     - **Windows**: Select "MIDIIN3 (LPProMK3 MIDI)" device in the first slot of input, "MIDIOUT3 (LPProMK3 MIDI)" as output, and "LPProMK3 MIDI" device in the 2nd slot of each pair.
 
