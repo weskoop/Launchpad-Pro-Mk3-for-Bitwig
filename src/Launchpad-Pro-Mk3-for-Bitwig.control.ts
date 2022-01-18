@@ -57,8 +57,8 @@ host.addDeviceNameBasedDiscoveryPair(
 );
 // Windows:
 host.addDeviceNameBasedDiscoveryPair(
-  ["MIDIIN3 (LLProMK3 MIDI)", "LLProMK3 MIDI"],
-  ["MIDIIN3 (LLProMK3 MIDI)", "LLProMK3 MIDI"]
+  ["MIDIIN3 (LPProMK3 MIDI)", "LPProMK3 MIDI"],
+  ["MIDIIN3 (LPProMK3 MIDI)", "LPProMK3 MIDI"]
 );
 
 const Layers = {
