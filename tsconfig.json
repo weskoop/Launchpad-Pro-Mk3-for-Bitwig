@@ -1,0 +1,28 @@
+{
+    "compilerOptions": {
+        "module": "none",
+        "strict": true,
+        "esModuleInterop": true,
+        "target": "es6",
+        "moduleResolution": "node",
+        "sourceMap": false,
+        "types": [
+            "typed-bitwig-api"
+        ],
+        "outDir": "dist",
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "node_modules/*",
+                "src/types/*"
+            ]
+        }
+    },
+    "lib": [
+        "es2015"
+    ],
+    "include": [
+        "src/**/*",
+        "src/*",
+    ]
+}

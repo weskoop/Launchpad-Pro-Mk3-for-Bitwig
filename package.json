@@ -1,0 +1,20 @@
+{
+  "name": "launchpad-pro-mk3-bitwig-controller",
+  "version": "0.4.0",
+  "description": "Novation Launchpad Pro Mk3 controller script for Bitwig Studio",
+  "main": "dist/Launchpad-Pro-Mk3.control.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run compile",
+    "compile": "npx tsc -p tsconfig.json",
+    "watch": "npx tsc -p tsconfig.json --watch"
+  },
+  "author": "Simon Heimler",
+  "license": "ISC",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "typed-bitwig-api": "^12.0.0",
+    "typescript": "^4.4.3"
+  }
+}
