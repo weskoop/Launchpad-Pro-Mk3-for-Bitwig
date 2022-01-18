@@ -50,9 +50,15 @@ host.defineController(
 host.defineMidiPorts(2, 2);
 
 // TODO: Update these, I only "know" the Mac pair, but they don't even work.
+// macOS:
 host.addDeviceNameBasedDiscoveryPair(
   ["Launchpad Pro MK3 LPProMK3 DAW", "Launchpad Pro MK3 LPProMK3 MIDI"],
   ["Launchpad Pro MK3 LPProMK3 DAW", "Launchpad Pro MK3 LPProMK3 MIDI"]
+);
+// Windows:
+host.addDeviceNameBasedDiscoveryPair(
+  ["MIDIIN3 (LLProMK3 MIDI)", "LLProMK3 MIDI"],
+  ["MIDIIN3 (LLProMK3 MIDI)", "LLProMK3 MIDI"]
 );
 
 const Layers = {
