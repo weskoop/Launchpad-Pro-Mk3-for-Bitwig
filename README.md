@@ -4,7 +4,7 @@ A Bitwig controller script that matches (and expands) the functionality that Nov
 
 The standalone features of the Launchpad, Notes/Chord/Custom modes and the Sequencer will all work seamlessly in Bitwig.
 
-Bitwig is different from Ableton Live, so there are a few differences. Specific to Bitwig, this script supports a rotated view for Arrange view, Multiple Devices and remote pages, 8 Sends per channel and more. Print to Clip, Capture MIDI are the notable omissions and there may be a few other minor behaviour differences not noted here, 
+Bitwig is different from Ableton Live, so there are a few differences. Specific to Bitwig, this script supports a rotated view for Arrange view, Multiple Devices and remote pages, 8 Sends per channel and more. 
 
 Enjoy!
 
