@@ -8,7 +8,7 @@ Bitwig is different from Ableton Live, so there are a few differences. Specific 
 
 Enjoy!
 
-*PS—If you want something that goes beyond what the Launchpad says on the buttons, check out [DrivenByMoss](https://github.com/git-moss/DrivenByMoss).
+*PS—If you want something that goes beyond what the Launchpad says on the buttons, check out [DrivenByMoss](https://github.com/git-moss/DrivenByMoss).*
 
 ## Setup
 
