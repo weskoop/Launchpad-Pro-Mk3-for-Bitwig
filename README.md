@@ -1,4 +1,4 @@
-# Launchpad Pro Mk3 for Bitwig
+# Launchpad Pro Mk3 for Bitwig (Bitwig Controller Script)
 
 A Bitwig controller script that matches (and expands) the functionality that Novation and Ableton provide for Live. It was implemented based on the Launchpad Pro Mk3 manual feature descriptions, so the Launchpad will do what it says on the buttons. 
 
