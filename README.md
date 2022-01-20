@@ -1,14 +1,14 @@
-# Launchpad Pro Mk3 for Bitwig
+# Launchpad Pro Mk3 for Bitwig (Bitwig Controller Script)
 
 A Bitwig controller script that matches (and expands) the functionality that Novation and Ableton provide for Live. It was implemented based on the Launchpad Pro Mk3 manual feature descriptions, so the Launchpad will do what it says on the buttons. 
 
 The standalone features of the Launchpad, Notes/Chord/Custom modes and the Sequencer will all work seamlessly in Bitwig.
 
-Bitwig is different from Ableton Live, so there are a few differences. Specific to Bitwig, this script supports a rotated view for Arrange view, Multiple Devices and remote pages, 8 Sends per channel and more. Print to Clip, Capture MIDI are the notable omissions and there may be a few other minor behaviour differences not noted here, 
+Bitwig is different from Ableton Live, so there are a few differences. Specific to Bitwig, this script supports a rotated view for Arrange view, Multiple Devices and remote pages, 8 Sends per channel and more. 
 
 Enjoy!
 
-*PS—If you want something that goes beyond what the Launchpad says on the buttons, check out [DrivenByMoss](https://github.com/git-moss/DrivenByMoss).
+*PS—If you want something that goes beyond what the Launchpad says on the buttons, check out [DrivenByMoss](https://github.com/git-moss/DrivenByMoss).*
 
 ## Setup
 
