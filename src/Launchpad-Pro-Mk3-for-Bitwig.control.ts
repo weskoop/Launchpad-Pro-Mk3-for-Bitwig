@@ -73,7 +73,18 @@ const Layers = {
   StopClip: new StopClipLayer(),
 }
 
-// @ts-expect-error
+type SettableValue = com.bitwig.extension.controller.api.SettableBeatTimeValue
+  | com.bitwig.extension.controller.api.SettableBooleanValue
+  | com.bitwig.extension.controller.api.SettableColorValue
+  | com.bitwig.extension.controller.api.SettableDoubleValue
+  | com.bitwig.extension.controller.api.SettableEnumValue
+  | com.bitwig.extension.controller.api.SettableIntegerValue
+  | com.bitwig.extension.controller.api.SettableRangedValue
+  | com.bitwig.extension.controller.api.SettableStringArrayValue
+  | com.bitwig.extension.controller.api.SettableStringValue
+  ;
+
+// @ts-ignore
 const ext: {
   // Bitwig API
   app: API.Application;
@@ -90,7 +101,7 @@ const ext: {
   cursorTrackFirstDevice: API.PinnableCursorDevice;
   cursorRemote: API.CursorRemoteControlsPage;
   cursorDrumPadBank: API.DrumPadBank;
-  prefs: any;
+  prefs: Record<string, SettableValue>;
   // Our API
   grid: Grid;
   buttons: Buttons;
