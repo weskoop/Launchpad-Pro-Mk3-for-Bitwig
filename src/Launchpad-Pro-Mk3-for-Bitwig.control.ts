@@ -90,6 +90,7 @@ const ext: {
   app: API.Application;
   midiDawIn: API.MidiIn;
   midiDawOut: API.MidiOut;
+  midiNotesIn: API.MidiIn;
   midiNotesOut: API.MidiOut;
   trackBank: API.TrackBank;
   sceneBank: API.SceneBank;
@@ -120,14 +121,18 @@ const ext: {
  */
 function init() {
   println("<init controller='Launchpad Mk3 Pro'>");
-
-  host.getMidiInPort(1).createNoteInput("Notes", "??????");
-  host.getMidiInPort(0).createNoteInput("Drum", "98????");
-
+  
   ext.midiDawIn = host.getMidiInPort(0);
   ext.midiDawOut = host.getMidiOutPort(0);
+  ext.midiNotesIn = host.getMidiInPort(1);
   ext.midiNotesOut = host.getMidiOutPort(1);
 
+  // Create input channels
+  ext.midiNotesIn.createNoteInput("Notes", "??????").includeInAllInputs();
+  ext.midiDawIn.createNoteInput("Drum", "98????");
+  for (let i = 0; i < 16; i++) {
+    ext.midiNotesIn.createNoteInput(`Note ${i + 1}`, `?${i.toString(16)}????`);
+  }
 
   ext.launchPad.init();
 
