@@ -88,9 +88,7 @@ type SettableValue = com.bitwig.extension.controller.api.SettableBeatTimeValue
 const ext: {
   // Bitwig API
   app: API.Application;
-  midiDawIn: API.MidiIn;
   midiDawOut: API.MidiOut;
-  midiNotesIn: API.MidiIn;
   midiNotesOut: API.MidiOut;
   trackBank: API.TrackBank;
   sceneBank: API.SceneBank;
@@ -122,22 +120,29 @@ const ext: {
 function init() {
   println("<init controller='Launchpad Mk3 Pro'>");
 
-  ext.midiDawIn = host.getMidiInPort(0);
+  // Setup Output Ports.
   ext.midiDawOut = host.getMidiOutPort(0);
-  ext.midiNotesIn = host.getMidiInPort(1);
   ext.midiNotesOut = host.getMidiOutPort(1);
 
-  // Create input channels
-  ext.midiNotesIn.createNoteInput("All Channels", "??????");
-  ext.midiDawIn.createNoteInput("Drum", "98????");
+  // Setup Input Ports.
+  let midiDawIn = host.getMidiInPort(0);
+  let midiNotesIn = host.getMidiInPort(1);
+
+  // Novation has Locked the Drum view (alt view in Note mode) to Ch 9 of the DAW interface.
+  // Maybe a be a clever reason for this, Maybe to avoid conflict with the Sequencers? ¯\_(ツ)_/¯.
+  midiDawIn.createNoteInput("Drum", "98????");
+
+  // Create input channels for other Modes.
+  midiNotesIn.createNoteInput("All Channels", "??????");
   for (let i = 0; i < 16; i++) {
-    ext.midiNotesIn.createNoteInput(`Channel ${i + 1}`, `?${i.toString(16)}????`).includeInAllInputs().set(false);
+    // Don't include these in the All Inputs, since All Channels exists there already.
+    midiNotesIn.createNoteInput(`Channel ${i + 1}`, `?${i.toString(16)}????`).includeInAllInputs().set(false);
   }
 
   ext.launchPad.init();
 
-  ext.midiDawIn.setMidiCallback(ext.launchPad.MidiCallback);
-  ext.midiDawIn.setSysexCallback(ext.launchPad.SysexCallback);
+  midiDawIn.setMidiCallback(ext.launchPad.MidiCallback);
+  midiDawIn.setSysexCallback(ext.launchPad.SysexCallback);
 
   println("</Init>");
 }
