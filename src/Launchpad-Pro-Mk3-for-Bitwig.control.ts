@@ -121,17 +121,17 @@ const ext: {
  */
 function init() {
   println("<init controller='Launchpad Mk3 Pro'>");
-  
+
   ext.midiDawIn = host.getMidiInPort(0);
   ext.midiDawOut = host.getMidiOutPort(0);
   ext.midiNotesIn = host.getMidiInPort(1);
   ext.midiNotesOut = host.getMidiOutPort(1);
 
   // Create input channels
-  ext.midiNotesIn.createNoteInput("Notes", "??????").includeInAllInputs();
+  ext.midiNotesIn.createNoteInput("All Channels", "??????");
   ext.midiDawIn.createNoteInput("Drum", "98????");
   for (let i = 0; i < 16; i++) {
-    ext.midiNotesIn.createNoteInput(`Note ${i + 1}`, `?${i.toString(16)}????`);
+    ext.midiNotesIn.createNoteInput(`Channel ${i + 1}`, `?${i.toString(16)}????`).includeInAllInputs().set(false);
   }
 
   ext.launchPad.init();
