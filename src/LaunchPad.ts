@@ -67,7 +67,7 @@ class LaunchPad {
   public static numDrumPads = 64;
 
   // Some State.
-  public state: any = {
+  public state = {
     orientation: Orientation.Mix,
     quantizeGrid: "1/16",
     fixedLength: "play_recorded",
@@ -137,7 +137,7 @@ class LaunchPad {
     {
       let prefs = host.getPreferences();
       ext.prefs.orientation = prefs.getEnumSetting("Orientation", "Grid", PrefOrientation, PrefOrientation[0]);
-      ext.prefs.orientation.addValueObserver((v: any) => {
+      ext.prefs.orientation.addValueObserver((v) => {
         switch (v) {
           case "Mix Only":
             this.state.orientation = Orientation.Mix
@@ -157,12 +157,12 @@ class LaunchPad {
       ext.prefs.panOrientation = prefs.getEnumSetting("Pan Faders", "Grid", PrefPanFader, PrefPanFader[0]);
 
       ext.prefs.scenesIndication = prefs.getBooleanSetting("Scenes", "Indicators", false);
-      ext.prefs.scenesIndication.addValueObserver((v: any) => {
+      ext.prefs.scenesIndication.addValueObserver((v) => {
         ext.sceneBank.setIndication(v);
       });
 
       ext.prefs.slotsIndication = prefs.getBooleanSetting("Slots", "Indicators", false);
-      ext.prefs.slotsIndication.addValueObserver((v: any) => {
+      ext.prefs.slotsIndication.addValueObserver((v) => {
         for (let trackIdx = 0; trackIdx < LaunchPad.numTracks; trackIdx++) {
           ext.trackBank.getItemAt(trackIdx).clipLauncherSlotBank().setIndication(v);
         }

@@ -206,7 +206,7 @@ class Layer {
 
   public static orientation: Orientation = Orientation.Mix;
 
-  private static canScroll: any = {
+  private static canScroll = {
     tracksUp: false,
     tracksDown: false,
     scenesUp: false,
@@ -312,11 +312,11 @@ class Layer {
     Layer.getCurrent().updateScrolling();
   }
 
-  public static getScroll(dir: string) {
+  public static getScroll(dir: ScrollDir) {
     return Layer.canScroll[dir];
   }
 
-  public static setScroll(dir: string, canScroll: boolean) {
+  public static setScroll(dir: ScrollDir, canScroll: boolean) {
     Layer.canScroll[dir] = canScroll;
     Layer.getCurrent().updateScrolling();
   }
@@ -349,3 +349,5 @@ class Layer {
   }
 
 }
+
+type ScrollDir = keyof typeof Layer["canScroll"];
