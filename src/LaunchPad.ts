@@ -480,10 +480,6 @@ class LaunchPad {
 
     // Drum Rack Support.
     {
-      ext.cursorTrack.playingNotes().addValueObserver((n) => {
-        ext.drumPads.updateNotes(n);
-      });
-
       ext.cursorTrackFirstDevice.hasDrumPads().addValueObserver((v) => {
         if (v) {
           ext.midiDawOut.sendSysex(`${SysexPrefix} 00 02 F7`);
