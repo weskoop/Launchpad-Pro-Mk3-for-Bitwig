@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License 
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-loadAPI(15);
+loadAPI(12);
 host.setShouldFailOnDeprecatedUse(true);
 
 host.load("Colour.js");
@@ -42,7 +42,7 @@ host.load("LaunchPad.js");
 host.defineController(
   "Novation",
   "Launchpad Pro Mk3",
-  "0.69",
+  "0.70",
   "9d5472df-446a-40c5-802b-2aca05ef091d",
   "slow wild"
 );
@@ -154,4 +154,3 @@ function flush() {
 function exit() {
   ext.launchPad.deInitSessionMode();
 }
-
