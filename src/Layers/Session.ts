@@ -279,15 +279,8 @@ class SessionLayer extends Layer {
       slotBank.select(pos.slotIdx + 1);
     } else if (Layer.isButtonHeld(Button.Quantize)) {
       ext.cursorClip.quantize(1);
-    else if (slot.hasContent().get()) {
-      slot.launch();
-    } else if (track.arm().get()) {
-      if (!ext.transport.isPlaying().get()) {
-        ext.transport.play();
-      }
-      slot.record();
     } else {
-      track.stop();
+      slot.launch();
     }
   }
 
