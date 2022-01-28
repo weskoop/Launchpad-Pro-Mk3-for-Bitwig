@@ -279,30 +279,6 @@ class SessionLayer extends Layer {
       slotBank.select(pos.slotIdx + 1);
     } else if (Layer.isButtonHeld(Button.Quantize)) {
       ext.cursorClip.quantize(1);
-    }
-    // // Alternate idea for the Fixed Length button.
-    // // Change the loop length of the Selected clip
-    // else if (Layer.isButtonHeld(Button.FixedLength)) {
-    // // Cycle through 1,2,3,4,6,8 Bars.
-    // slotBank.select(pos.slotIdx);
-    // let ll = ext.cursorClip.getLoopLength().get();
-    // if (ll < 4) {
-    //   ll = 4;
-    // } else if (ll < 8) {
-    //   ll = 8;
-    // } else if (ll < 12) {
-    //   ll = 12;
-    // } else if (ll < 16) {
-    //   ll = 16;
-    // } else if (ll < 24) {
-    //   ll = 24;
-    // } else if (ll < 32) {
-    //   ll = 32;
-    // } else {
-    //   ll = 4;
-    // }
-    // ext.cursorClip.getLoopLength().set(ll);
-    // }
     else if (slot.hasContent().get()) {
       slot.launch();
     } else if (track.arm().get()) {
