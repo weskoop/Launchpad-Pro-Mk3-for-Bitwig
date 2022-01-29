@@ -169,10 +169,6 @@ class LaunchPad {
       });
     }
 
-
-
-
-
     // Setup some more random toggles.
     {
       // Groove (AKA Swing) Toggle.
@@ -208,7 +204,7 @@ class LaunchPad {
           return;
         }
 
-        const a = panel == "ARRANGE";
+        const a = (panel == "ARRANGE" || panel == "ARR");
 
         // Reflect Panel Choice on Track Mode Buttons
         ext.buttons.getButton(Button.LogoLed).setEnabled(a).setPulse().setShiftedColour(a ? Colours.Bitwig : Colours.Off);
@@ -242,7 +238,6 @@ class LaunchPad {
         println(`<Project changed='${projectName}'/>`);
       });
     }
-
 
     // Transports.
     // Simple and Global, handled outside the layers (like the Grid).

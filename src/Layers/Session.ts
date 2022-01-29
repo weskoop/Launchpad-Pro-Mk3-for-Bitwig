@@ -62,6 +62,8 @@ class SessionLayer extends Layer {
           ext.transport.isMetronomeEnabled().toggle();
           break;
         case Button.Volume:
+          // Some Layouts use "ARR", invalid values will be ignored, so call both.
+          ext.app.setPanelLayout("ARR");
           ext.app.setPanelLayout("ARRANGE");
           break;
         case Button.Pan:
