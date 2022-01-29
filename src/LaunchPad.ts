@@ -72,6 +72,7 @@ class LaunchPad {
     quantizeGrid: "1/16",
     fixedLength: "play_recorded",
     ignoreFaders: false,
+    enablePanelSwitch: true,
   }
 
   public init() {
@@ -208,8 +209,11 @@ class LaunchPad {
 
         // Reflect Panel Choice on Track Mode Buttons
         ext.buttons.getButton(Button.LogoLed).setEnabled(a).setPulse().setShiftedColour(a ? Colours.Bitwig : Colours.Off);
-        ext.buttons.getButton(Button.Volume).setShiftedColour(a ? Colours.Bitwig : Colours.BitwigDim);
-        ext.buttons.getButton(Button.Pan).setShiftedColour(a ? Colours.BitwigDim : Colours.Bitwig);
+
+        if (this.state.enablePanelSwitch) {
+          ext.buttons.getButton(Button.Volume).setShiftedColour(a ? Colours.Bitwig : Colours.BitwigDim);
+          ext.buttons.getButton(Button.Pan).setShiftedColour(a ? Colours.BitwigDim : Colours.Bitwig);
+        }
 
         if (Layer.isButtonHeld(Button.Shift)) {
           ext.buttons.getButton(Button.LogoLed).drawShifted();
@@ -239,17 +243,33 @@ class LaunchPad {
       });
     }
 
+    // Display Profile Switching
+    {
+      ext.app.displayProfile().addValueObserver((displayProfile) => {
+        switch (displayProfile) {
+          case "Single Display (Small)":
+          case "Single Display (Large)":
+          case "Dual Display (Master/Detail)":
+          case "Tablet":
+            this.state.enablePanelSwitch = true;
+            break;
+          case "Dual Display (Studio)":
+          case "Dual Display (Arranger/Mixer)":
+          case "Triple Display":
+            ext.buttons.getButton(Button.Volume).setShiftedColour(Colours.Off);
+            ext.buttons.getButton(Button.Pan).setShiftedColour(Colours.Off);
+            this.state.enablePanelSwitch = false;
+            break;
+        }
+      });
+    }
+
     // Transports.
     // Simple and Global, handled outside the layers (like the Grid).
     {
       ext.transport.isPlaying().addValueObserver((isPlaying) => {
         ext.buttons.getButton(Button.Play).setSelected(isPlaying).draw(this.state.orientation);
       });
-
-      // If I add back in Arrange Record Option...
-      // ext.transport.isArrangerRecordEnabled().addValueObserver((isRecording) => {
-      //   // ext.buttons.getButton(Button.Record).setSelected(isRecording).draw(this.state.orientation);
-      // });
 
       ext.transport.isClipLauncherOverdubEnabled().addValueObserver((enabled) => {
         ext.buttons.getButton(Button.Record).setColour(enabled ? Colours.Bitwig : Colours.Deselected).draw(this.state.orientation);
