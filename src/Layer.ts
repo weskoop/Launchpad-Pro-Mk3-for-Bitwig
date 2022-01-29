@@ -101,6 +101,8 @@ class Layer {
     }
   }
 
+  public setTrackExists(idx: number, state: boolean) { }
+
   protected selectTrackMode(selected: Button = 0) {
     for (let i = 0; i < LaunchPad.numTracks; i++) {
       const btn = i + 1;

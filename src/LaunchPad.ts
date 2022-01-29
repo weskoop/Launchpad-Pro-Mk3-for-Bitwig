@@ -370,6 +370,7 @@ class LaunchPad {
           Layers.Solo.setTrackToggle(trackIdx, v);
         });
         track.exists().addValueObserver((v) => {
+          Layer.getCurrent().setTrackExists(trackIdx, v);
           Layer.setTrackEnabled(trackIdx, v);
         });
         track.isStopped().addValueObserver((v) => {
@@ -453,6 +454,19 @@ class LaunchPad {
       }, -1);
 
       for (let controlIdx = 0; controlIdx < LaunchPad.numTracks; controlIdx++) {
+        ext.cursorRemote.getParameter(controlIdx).exists().addValueObserver((v) => {
+          ext.launchPad.stopFaders(FaderBank.Device);
+
+          let msg = `${SysexPrefix} 01 03 ${Layer.getCurrent().getOrientation()} `;
+          const colour = v ? "35" : "00";
+          msg += `0${controlIdx} 00 3${controlIdx} ${colour} F7`;
+          ext.midiDawOut.sendSysex(msg);
+
+          // Update Value.
+          const level = (ext.cursorRemote.getParameter(controlIdx).value().get() * 127) | 0;
+          ext.midiDawOut.sendMidi(180, controlIdx + 0x30, level);
+        });
+
         ext.cursorRemote.getParameter(controlIdx).value().addValueObserver(128, (v) => {
           Layers.Device.setTrackFader(controlIdx, v);
           ext.midiDawOut.sendMidi(180, controlIdx + 0x30, v);
@@ -558,63 +572,47 @@ class LaunchPad {
 
   private setFaderBank(faderBank: string) {
     switch (faderBank) {
-      case FaderBank.Volume:
-        ext.midiDawOut.sendSysex(
-          `${SysexPrefix} 01 00 ${Layer.getCurrent().getOrientation()} ` +
-          `00 00 00 15` +
-          `01 00 01 15` +
-          `02 00 02 15` +
-          `03 00 03 15` +
-          `04 00 04 15` +
-          `05 00 05 15` +
-          `06 00 06 15` +
-          `07 00 07 15` +
-          `F7`
-        );
+      case FaderBank.Volume: {
+        let msg = `${SysexPrefix} 01 00 ${Layer.getCurrent().getOrientation()} `;
+        for (let trackIdx = 0; trackIdx < LaunchPad.numTracks; trackIdx++) {
+          const colour = ext.trackBank.getItemAt(trackIdx).exists().get() ? "15" : "00";
+          msg += `0${trackIdx} 00 0${trackIdx} ${colour}`;
+        }
+        msg += `F7`;
+        ext.midiDawOut.sendSysex(msg);
         break;
-      case FaderBank.Pan:
-        const o: string = ext.prefs.panOrientation.get() == "Horizontal Only" ? "01" : Layer.getCurrent().getOrientation()
-        ext.midiDawOut.sendSysex(
-          `${SysexPrefix} 01 01 ${o} ` +
-          `00 01 10 25` +
-          `01 01 11 25` +
-          `02 01 12 25` +
-          `03 01 13 25` +
-          `04 01 14 25` +
-          `05 01 15 25` +
-          `06 01 16 25` +
-          `07 01 17 25` +
-          `F7`
-        );
+      }
+      case FaderBank.Pan: {
+        const o = ext.prefs.panOrientation.get() == "Horizontal Only" ? "01" : Layer.getCurrent().getOrientation()
+        let msg = `${SysexPrefix} 01 01 ${o} `;
+        for (let trackIdx = 0; trackIdx < LaunchPad.numTracks; trackIdx++) {
+          const colour = ext.trackBank.getItemAt(trackIdx).exists().get() ? "25" : "00";
+          msg += `0${trackIdx} 01 1${trackIdx} ${colour}`;
+        }
+        msg += `F7`;
+        ext.midiDawOut.sendSysex(msg);
         break;
-      case FaderBank.Sends:
-        ext.midiDawOut.sendSysex(
-          `${SysexPrefix} 01 02 ${Layer.getCurrent().getOrientation()} ` +
-          `00 00 20 2D` +
-          `01 00 21 2D` +
-          `02 00 22 2D` +
-          `03 00 23 2D` +
-          `04 00 24 2D` +
-          `05 00 25 2D` +
-          `06 00 26 2D` +
-          `07 00 27 2D` +
-          `F7`
-        );
+      }
+      case FaderBank.Sends: {
+        let msg = `${SysexPrefix} 01 02 ${Layer.getCurrent().getOrientation()} `;
+        for (let trackIdx = 0; trackIdx < LaunchPad.numTracks; trackIdx++) {
+          const colour = ext.trackBank.getItemAt(trackIdx).exists().get() ? "2D" : "00";
+          msg += `0${trackIdx} 00 2${trackIdx} ${colour}`;
+        }
+        msg += `F7`;
+        ext.midiDawOut.sendSysex(msg);
         break;
-      case FaderBank.Device:
-        ext.midiDawOut.sendSysex(
-          `${SysexPrefix} 01 03 ${Layer.getCurrent().getOrientation()} ` +
-          `00 00 30 35` +
-          `01 00 31 35` +
-          `02 00 32 35` +
-          `03 00 33 35` +
-          `04 00 34 35` +
-          `05 00 35 35` +
-          `06 00 36 35` +
-          `07 00 37 35` +
-          `F7`
-        );
+      }
+      case FaderBank.Device: {
+        let msg = `${SysexPrefix} 01 03 ${Layer.getCurrent().getOrientation()} `;
+        for (let controlIdx = 0; controlIdx < LaunchPad.numTracks; controlIdx++) {
+          const colour = ext.cursorRemote.getParameter(controlIdx).exists().get() ? "35" : "00";
+          msg += `0${controlIdx} 00 3${controlIdx} ${colour}`;
+        }
+        msg += `F7`;
+        ext.midiDawOut.sendSysex(msg);
         break;
+      }
     }
     ext.midiDawOut.sendSysex(`${SysexPrefix} 00 01 ${faderBank} 00 F7`);
   }

@@ -62,6 +62,15 @@ class SendsLayer extends Layer {
     ext.midiDawOut.sendMidi(180, idx + 0x20, this.sendFaders[idx][this.sendPageIdx]);
   }
 
+  setTrackExists(idx: number, exists: boolean) {
+    ext.launchPad.stopFaders(FaderBank.Sends);
+    const colour = exists ? "2D" : "00";
+    ext.midiDawOut.sendSysex(`${SysexPrefix} 01 02 ${Layer.getCurrent().getOrientation()} 0${idx} 00 0${idx} ${colour} F7`);
+    if (exists) {
+      this.updateTrackFader(idx);
+    }
+  }
+
   setSendScrolling() {
     Layer.setScroll("sendsUp", this.sendPageIdx > 0);
     Layer.setScroll("sendsDown", this.sendPageIdx < this.sendPages - 1);

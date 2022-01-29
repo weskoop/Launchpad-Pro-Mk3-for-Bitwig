@@ -44,8 +44,16 @@ class VolumeLayer extends Layer {
     ext.midiDawOut.sendMidi(180, idx, this.trackFaders[idx]);
   }
 
-  onButtonPush(btn: Button) {
+  setTrackExists(idx: number, exists: boolean) {
+    ext.launchPad.stopFaders(FaderBank.Volume);
+    const colour = exists ? "15" : "00";
+    ext.midiDawOut.sendSysex(`${SysexPrefix} 01 00 ${Layer.getCurrent().getOrientation()} 0${idx} 00 0${idx} ${colour} F7`);
+    if (exists) {
+      this.updateTrackFader(idx);
+    }
+  }
 
+  onButtonPush(btn: Button) {
     ext.launchPad.stopFaders(FaderBank.Volume);
 
     if (Layer.isButtonHeld(Button.Shift)) {

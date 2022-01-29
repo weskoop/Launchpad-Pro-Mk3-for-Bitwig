@@ -44,6 +44,16 @@ class PanLayer extends Layer {
     ext.midiDawOut.sendMidi(180, idx + 0x10, this.trackFaders[idx]);
   }
 
+  setTrackExists(idx: number, exists: boolean) {
+    ext.launchPad.stopFaders(FaderBank.Pan);
+    const o = ext.prefs.panOrientation.get() == "Horizontal Only" ? "01" : Layer.getCurrent().getOrientation()
+    const colour = exists ? "25" : "00";
+    ext.midiDawOut.sendSysex(`${SysexPrefix} 01 01 ${o} 0${idx} 01 1${idx} ${colour} F7`);
+    if (exists) {
+      this.updateTrackFader(idx);
+    }
+  }
+
   onButtonPush(btn: Button) {
     ext.launchPad.stopFaders(FaderBank.Pan);
 
