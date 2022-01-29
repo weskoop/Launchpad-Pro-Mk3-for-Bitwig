@@ -101,8 +101,9 @@ This feature actually works much better here than when connected to Ableton Live
 #### 9.11 Print to Clip
 The shift function **Print to Clip** is not a feature currently offered in Bitwig.
 
-### Errata
+### Errata / Tips
 - You may notice that Flashing and Pulsing LEDs will stop flashing or pulsing, Toggle **Play** on and off to send a clock signal to the LaunchPad so it can set the flash/pulse rate. Ableton always sends a clock, so this is not noticeable when using ableton. Bitwig only sends a clock when the transport is running.
+- If you change Display Profiles, you will need to disconnect and reconnect the controller for all of it's function to work properly.
 
 ---
 
