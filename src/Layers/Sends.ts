@@ -77,7 +77,7 @@ class SendsLayer extends Layer {
 
   setTrackExists(idx: number, exists: boolean) {
     ext.launchPad.stopFaders(FaderBank.Sends);
-    const colour = exists ? "2D" : "00";
+    const colour = exists && (this.sendPages > 0) ? "2D" : "00";
     ext.midiDawOut.sendSysex(`${SysexPrefix} 01 02 ${Layer.getCurrent().getOrientation()} 0${idx} 00 0${idx} ${colour} F7`);
     if (exists) {
       this.updateTrackFader(idx);
@@ -90,7 +90,12 @@ class SendsLayer extends Layer {
   }
 
   setPages(count: number) {
+    const prevCount = this.sendPages;
     this.sendPages = Math.min(Math.max(count, 0), LaunchPad.numSends);
+    if ((!prevCount != !count) && this == Layer.getCurrent()) {
+      ext.launchPad.setFaderBank(FaderBank.Sends);
+    }
+
     if (count > 0 && this.sendPageIdx >= count) {
       this.setPageIdx(count - 1);
     } else {
@@ -109,6 +114,7 @@ class SendsLayer extends Layer {
   }
 
   getPageIdx() { return this.sendPageIdx; }
+  getPages() { return this.sendPages; }
 
   onButtonPush(btn: Button) {
     ext.launchPad.stopFaders(FaderBank.Sends);

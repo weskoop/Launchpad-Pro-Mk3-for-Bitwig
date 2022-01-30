@@ -589,7 +589,7 @@ class LaunchPad {
     }
   }
 
-  private setFaderBank(faderBank: string) {
+  public setFaderBank(faderBank: string) {
     switch (faderBank) {
       case FaderBank.Volume: {
         let msg = `${SysexPrefix} 01 00 ${Layer.getCurrent().getOrientation()} `;
@@ -615,7 +615,7 @@ class LaunchPad {
       case FaderBank.Sends: {
         let msg = `${SysexPrefix} 01 02 ${Layer.getCurrent().getOrientation()} `;
         for (let trackIdx = 0; trackIdx < LaunchPad.numTracks; trackIdx++) {
-          const colour = ext.trackBank.getItemAt(trackIdx).exists().get() ? "2D" : "00";
+          const colour = ext.trackBank.getItemAt(trackIdx).exists().get() && Layers.Sends.getPages() > 0 ? "2D" : "00";
           msg += `0${trackIdx} 00 2${trackIdx} ${colour}`;
         }
         msg += `F7`;
