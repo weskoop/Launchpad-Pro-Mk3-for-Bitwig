@@ -44,7 +44,7 @@ host.load("LaunchPad.js");
 host.defineController(
   "Novation",
   "Launchpad Pro Mk3",
-  "0.70",
+  "1.0",
   "9d5472df-446a-40c5-802b-2aca05ef091d",
   "slow wild"
 );

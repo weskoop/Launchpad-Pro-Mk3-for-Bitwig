@@ -12,9 +12,9 @@ Enjoy!
 
 ## Setup
 
-1. Download the [latest release](https://github.com/weskoop/Launchpad-Pro-Mk3-for-Bitwig/releases/download/v0.0.70/Launchpad-Pro-Mk3-for-Bitwig_0.0.70.zip) from the releases section on the right of this page.
-2. Unzip and copy the `Launchpad-Pro-Mk3-for-Bitwig_x.x.x` folder to your Bitwig **My Controller Scripts** location.
-3. Go to **Bitwig** > **Settings** > **Controllers**.
+1. Download the [latest release (not source)](https://github.com/weskoop/Launchpad-Pro-Mk3-for-Bitwig/releases) from the releases section on the right of this page.
+2. Unzip and copy the `Launchpad-Pro-Mk3-for-Bitwig_1.x` folder to your Bitwig **My Controller Scripts** location.
+3. Restart **Bitwig** and open **Settings** > **Controllers**.
 4. Add the Controller (**Novation** > **Launchpad Pro Mk3**).
    - *Note: Depending on your OS or configuration, your device names may differ.*
    - **macOS**: Select "*Launchpad Pro MK3 LPProMK3 DAW*" device in the first slot of input and output, and "*Launchpad Pro MK3 LPProMK3 MIDI*" device in the 2nd slot of each pair.
