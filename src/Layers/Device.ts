@@ -74,7 +74,7 @@ class DeviceLayer extends Layer {
   }
 
   onButtonPush(btn: Button) {
-    ext.launchPad.stopFaders(FaderBank.Sends);
+    ext.launchPad.stopFaders(FaderBank.Device);
 
     if (Layer.isButtonHeld(Button.Shift)) {
       this.parent.onButtonPush(btn);

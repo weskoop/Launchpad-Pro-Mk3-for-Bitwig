@@ -118,8 +118,8 @@ class LaunchPad {
       ext.transport = host.createTransport();
       ext.groove = host.createGroove();
 
-      // Main Track and Scene Banks
-      ext.trackBank = host.createTrackBank(LaunchPad.numTracks, LaunchPad.numSends, LaunchPad.numScenes, true);
+      // Main Track and Scene Banks. No Master, No Sends.
+      ext.trackBank = host.createMainTrackBank(LaunchPad.numTracks, LaunchPad.numSends, LaunchPad.numScenes);
       ext.sceneBank = ext.trackBank.sceneBank();
 
       // This all follows the selection in Bitwig.
@@ -472,6 +472,7 @@ class LaunchPad {
       ext.cursorClip.clipLauncherSlot().isRecording().addValueObserver((v) => {
         Layer.getCurrent().updateClipRecordingState();
       });
+
       ext.cursorClip.clipLauncherSlot().isRecordingQueued().addValueObserver((v) => {
         Layer.getCurrent().updateClipRecordingState();
       });
