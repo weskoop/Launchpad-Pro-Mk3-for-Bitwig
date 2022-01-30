@@ -81,7 +81,7 @@ class SessionLayer extends Layer {
           break;
         case Button.StopClip: {
           const g = ext.groove.getEnabled().value().get() > 0;
-          ext.groove.getEnabled().value().set(g ? 0 : 1);
+          ext.groove.getEnabled().value().setImmediately(g ? 0 : 1);
           break;
         }
         case Button.Up:
