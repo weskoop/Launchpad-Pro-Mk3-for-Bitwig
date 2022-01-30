@@ -537,6 +537,7 @@ class LaunchPad {
           // Update Value.
           const level = (ext.cursorRemote.getParameter(controlIdx).value().get() * 127) | 0;
           ext.midiDawOut.sendMidi(180, controlIdx + 0x30, level);
+          Layers.Device.setTrackToggle(controlIdx, v);
         });
 
         ext.cursorRemote.getParameter(controlIdx).value().addValueObserver(128, (v) => {
@@ -763,13 +764,13 @@ class LaunchPad {
     if (status === 180 && !ext.launchPad.state.ignoreFaders) {
       const value = data2 / 127;
       if (data1 < 0x10) {
-        ext.trackBank.getItemAt(data1).volume().set(value);
+        ext.trackBank.getItemAt(data1).volume().setImmediately(value);
       } else if (data1 < 0x20) {
-        ext.trackBank.getItemAt(data1 - 0x10).pan().set(value);
+        ext.trackBank.getItemAt(data1 - 0x10).pan().setImmediately(value);
       } else if (data1 < 0x30) {
         ext.trackBank.getItemAt(data1 - 0x20).sendBank().getItemAt(Layers.Sends.getPageIdx()).setImmediately(value);
       } else if (data1 < 0x40) {
-        ext.cursorRemote.getParameter(data1 - 0x30).value().set(value);
+        ext.cursorRemote.getParameter(data1 - 0x30).value().setImmediately(value);
       }
     }
     host.println("</MidiCallback>");

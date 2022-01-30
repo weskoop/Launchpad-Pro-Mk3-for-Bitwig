@@ -20,14 +20,12 @@
 class DeviceLayer extends Layer {
   public parameterPages = 1;
   public parameterPageIdx = 0;
-  public wasShowingControls = false;
 
   activate() {
     ext.launchPad.setLayout(Layout.Fader, FaderBank.Device);
-    ext.buttons.setAllTrackButtonColours(Colours.DeviceDim, Colours.Device, this.getOrientation());
+    ext.buttons.setAllTrackButtonColours(Colours.Off, Colours.Device, this.getOrientation());
     this.selectTrackMode(Button.Device);
     this.updateTrackFaders();
-    // this.wasShowingControls = ext.cursorDevice.isRemoteControlsSectionVisible().get();
     ext.cursorDevice.isRemoteControlsSectionVisible().set(true);
     this.setGridModButtons(false);
   }
@@ -38,6 +36,16 @@ class DeviceLayer extends Layer {
 
   updateSceneColours() {
     // Do nothing.
+  }
+
+  updateTrackAndSceneToggles() {
+    const o = this.getOrientation();
+    for (let i = 0; i < LaunchPad.numTracks; i++) {
+      ext.buttons.getTrackButton(i)
+        .setEnabled(true)
+        .setSelected(this.trackToggles[i])
+        .draw(o);
+    }
   }
 
   updateOrientation() {
@@ -84,17 +92,13 @@ class DeviceLayer extends Layer {
         ext.cursorRemote.selectNextPage(false);
         break;
       case Button.Left:
-        // ext.cursorDevice.isRemoteControlsSectionVisible().set(this.wasShowingControls);
         ext.cursorDevice.selectPrevious();
         ext.cursorDevice.selectDevice(ext.cursorDevice);
-        // this.wasShowingControls = ext.cursorDevice.isRemoteControlsSectionVisible().get();
         ext.cursorDevice.isRemoteControlsSectionVisible().set(true);
         break;
       case Button.Right:
-        // ext.cursorDevice.isRemoteControlsSectionVisible().set(this.wasShowingControls);
         ext.cursorDevice.selectNext();
         ext.cursorDevice.selectDevice(ext.cursorDevice);
-        // this.wasShowingControls = ext.cursorDevice.isRemoteControlsSectionVisible().get();
         ext.cursorDevice.isRemoteControlsSectionVisible().set(true);
         break;
       default:
