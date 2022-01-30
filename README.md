@@ -17,9 +17,18 @@ Enjoy!
 3. Go to **Bitwig** > **Settings** > **Controllers**.
 4. Add the Controller (**Novation** > **Launchpad Pro Mk3**).
    - *Note: Depending on your OS or configuration, your device names may differ.*
-    - **macOS**: Select "*Launchpad Pro MK3 LPProMK3 DAW*" device in the first slot of input and output, and "*Launchpad Pro MK3 LPProMK3 MIDI*" device in the 2nd slot of each pair.
-    - **Windows**: Select "*MIDIIN3 (LPProMK3 MIDI)*" device in the first slot as input, "*MIDIOUT3 (LPProMK3 MIDI)*" as output, and "*LPProMK3 MIDI*" device in the 2nd slot of each pair.
-5. When the Launchpad connects, you will be presented with the controller options.
+   - **macOS**: Select "*Launchpad Pro MK3 LPProMK3 DAW*" device in the first slot of input and output, and "*Launchpad Pro MK3 LPProMK3 MIDI*" device in the 2nd slot of each pair.
+   - **Windows**: Select "*MIDIIN3 (LPProMK3 MIDI)*" device in the first slot as input, "*MIDIOUT3 (LPProMK3 MIDI)*" as output, and "*LPProMK3 MIDI*" device in the 2nd slot of each pair.
+
+     ![Screenshot of Bitwig Controllers Settings](/Resources/Controllers.png)
+
+5. Go to **Bitwig** > **Settings** > **Synchronization**.
+   - *Note: Depending on your OS or configuration, your device names may differ.*
+   - Send **Clock** and **Start/Stop** to the **Launchpad Pro Mk3** devices.
+     
+     ![Screenshot of Bitwig Synchronization Settings](/Resources/Synchronization.png)
+
+6. When the Launchpad connects, you will be presented with the controller options.
     - **Grid > Orientation**: Allows a Rotated view on the Grid to match the clip layout of Bitwig.
        - **Mix** view matches the standard Launchpad orientation. Most of this documentation will refer to Mix orientation.
        - **Arrange** will be rotated to match the clip launcher in the Arrange View of Bitwig. The navigation arrows will adjust automatically. *Note that this will also swap the Track Selection Buttons with the Scene Launch buttons on the Launchpad UI. This is mostly a non issue, except in the standalone Launchpad modes, the scene buttons are disabled.*
