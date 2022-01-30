@@ -154,7 +154,6 @@ class DrumPads {
     }
   }
 
-
   public getPad(note: number): PadState {
     return this.pads[note];
   }

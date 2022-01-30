@@ -70,23 +70,20 @@ There is no "Session Overview" implemented but...
 - Covered above. We allow for matching the Bitwig Arrange view. This is one of the Bitwig specific upgrades here.
 
 ### 5.5 Record Arm & Recording
-The **Record** Button, more of an **Overdub** button...
-  - It is **not** connected to the Arrange view Record button in Bitwig.
-  - This button works similarly to the Ableton version, in that it toggle Clip Overdub (aka Session Record in Ableton Live) on for the Clip Launcher. White for disabled, orange for enabled.
-  - Your track will need to be armed in order for any overdubbing to take place.
-  - If you record a clip from the grid, you can also use the **Record** button to finish recording (so you don't need to hunt for the grid button you pressed).
-  - If you are in **Notes/Drum** or **Chord** Standalone pages there is additional behaviour:
-    - If your selected track is **Armed**, and nothing in that track is playing, the **Record** button will be **Red** (not orange/white) and you can press **Record** to record a new clip in the first available slot on that track. Pressing it a 2nd time will finish recording.
-    - If the selected track has a playing clip, the **Record** button to toggle Clip Overdub on and off. 
+*The **Record** button is more of an **Overdub** button.*
+- It is **not** connected to the Arrange view Record button in Bitwig.
+- This button works similarly to the Ableton version, in that it toggle Clip Overdub (aka Session Record in Ableton Live) on for the Clip Launcher. White for disabled, orange for enabled.
+- Your track will need to be armed in order for any overdubbing to take place.
+- If you record a clip from the grid, you can also use the **Record** button to finish recording (so you don't need to hunt for the grid button you pressed).
+- If your selected track is **Armed**, pressing **Shift + Record** will record a new clip in the first available slot on that track. Pressing it a 2nd time will finish recording (as described above). When holding shift, your **Record** button will be red (not orange/white) when this function is available.
 
 ### 5.6 Production Controls
 *Along with the features covered in the Novation manual, we have a few others.*
 - **Shift + • (Volume)** and **Shift + •• (Pan)** will change your Bitwig view to **Arrange** and **Mix** respectively.
   - When Bitwig is in Arrange view, the Novation logo will pulse orange.
-  -  You can have the Launchpad UI rotate automatically if you set your **Grid > Orientation** to **Follow Bitwig**.
-
+  - You can have the Launchpad UI rotate automatically if you set your **Grid > Orientation** to **Follow Bitwig**.
+  - Depending on your Display Profile, these options may or may not be available, you may want to fix your **Grid > Orientation** in that case.
 - **Shift + Swing** will toggle **Groove** in Bitwig. White for disabled, orange for enabled.
-
 - **Shift + Play** will reset your play head to the start of the arrange timeline. If you manually set the start point, then the **Play** button on it's own will start and stop from that point, very handy if you want to work on a section of your track.
 
 

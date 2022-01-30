@@ -18,6 +18,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 loadAPI(12);
+
+// Good for dev, but we do not want users scripts failing when Bitwig deprecates a function.
 host.setShouldFailOnDeprecatedUse(true);
 
 host.load("Colour.js");

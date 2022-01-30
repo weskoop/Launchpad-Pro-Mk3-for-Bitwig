@@ -45,6 +45,13 @@ class SessionLayer extends Layer {
           ext.transport.playStartPosition().set(0);
           ext.transport.launchFromPlayStartPosition();
           break;
+        case Button.Record: {
+          const track = ext.cursorTrack;
+          if (track.arm().get()) {
+            track.recordNewLauncherClip(0);
+          }
+          break;
+        }
         case Button.Quantize:
           if (ext.app.recordQuantizationGrid().get() == "OFF") {
             ext.app.recordQuantizationGrid().set(ext.launchPad.state.quantizeGrid);
@@ -148,33 +155,8 @@ class SessionLayer extends Layer {
         ext.transport.togglePlay();
         break;
       case Button.Record: {
-        // TODO: Option: Plain old arranger Record?
-        // ext.transport.record();
-
         const overdub = ext.transport.isClipLauncherOverdubEnabled();
         const slot = ext.cursorClip.clipLauncherSlot();
-
-        if (Layer.isNotesLayout()) {
-          const track = ext.cursorTrack;
-          if (track.arm().get()) {
-            if (track.isStopped().get()) {
-              // Record to a new Slot!
-              track.recordNewLauncherClip(0);
-            } else {
-              if (slot.isRecording().get()) {
-                // Finish Recording.
-                slot.launch();
-              } else {
-                // Toggle Overdub On and Off.
-                overdub.toggle();
-              }
-            }
-          } else {
-            overdub.toggle();
-          }
-          return;
-        }
-
         if (slot.isRecording().get()) {
           // Finish Recording.
           slot.launch();
@@ -286,7 +268,6 @@ class SessionLayer extends Layer {
     }
   }
 
-
   onLayoutPush(layout: string, previousLayout: string) {
 
     if (Layer.ignoreLayoutPush) {
@@ -324,8 +305,6 @@ class SessionLayer extends Layer {
           break;
       }
     }
-
-
     this.updateNotesLayout();
   }
 
@@ -343,33 +322,33 @@ class SessionLayer extends Layer {
         this.setGridModButtons(true);
       }
     }
-    this.updateRecordingState();
   }
 
-  updateRecordingState() {
+  updateClipRecordingState() {
     // States (this is dumb and complex, but worth it for the UI.)
     // - Overdub: Enabled Orange Solid
     // - Overdub: Disabled White Solid
     // - Recording Clip: Red Pulsing
     // - Recording Queued: Red Flashing
-    // - Notes Mode: Armed Waiting to Record: Red Solid
+    // - Armed Waiting to Record: Red Solid (Shift)
 
-    const slot = ext.cursorClip.clipLauncherSlot();
     const track = ext.cursorTrack;
+    const slot = ext.cursorClip.clipLauncherSlot();
+    const record = ext.buttons.getButton(Button.Record);
 
     const isRecording = slot.isRecording().get();
     const isRecordingQueued = slot.isRecordingQueued().get();
-    const isArmed = track.arm().get() && track.isStopped().get();
-    const record = ext.buttons.getButton(Button.Record);
+    const isArmed = track.arm().get();
     const isOverdub = ext.transport.isClipLauncherOverdubEnabled().get();
 
     if (isRecordingQueued) {
-      record.setSelected(true).setFlash().draw(this.getOrientation());
+      record.setSelected(true).setFlash();
     } else if (isRecording) {
-      record.setSelected(true).setPulse().draw(this.getOrientation());
+      record.setSelected(true).setPulse();
     } else {
-      record.setSelected(Layer.isNotesLayout() && isArmed).setSolid().draw(this.getOrientation());
+      record.setSelected(false).setSolid();
     }
+    record.setShiftedColour(isArmed ? Colours.Record : Colours.Off).draw(this.getOrientation());
 
     const isRedKeys = isRecording || isRecordingQueued || isOverdub;
     ext.midiDawOut.sendSysex(`${SysexPrefix} 17 ${isRedKeys ? "05" : "03"} F7`);
@@ -413,7 +392,6 @@ class SessionLayer extends Layer {
       .setSelectedColour(Colours.Scroll)
       .setSelected(Layer.getScroll("scenesDown"))
       .setShiftedColour(Layer.getScroll("scenesDown") ? Colours.Selected : Colours.Off);
-
 
     if (Layer.isButtonHeld(Button.Shift)) {
       tracksUp.drawShifted();

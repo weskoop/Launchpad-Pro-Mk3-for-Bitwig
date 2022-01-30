@@ -171,9 +171,9 @@ class Layer {
     }
   }
 
-  public updateRecordingState() {
+  public updateClipRecordingState() {
     if (this.hasParent()) {
-      this.parent.updateRecordingState();
+      this.parent.updateClipRecordingState();
     }
   }
 
@@ -306,7 +306,6 @@ class Layer {
   public static isNotesLayout() {
     return (Layer.currentLayout == Layout.Note) || (Layer.currentLayout == Layout.Chord);
   }
-
 
   public static setOrientation(o: Orientation) {
     Layer.orientation = o;

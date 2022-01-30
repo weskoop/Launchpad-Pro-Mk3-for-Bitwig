@@ -29,7 +29,6 @@ const enum TrackMode {
   StopClip,
 };
 
-
 // HEX String Values
 const SysexPrefix = "F0 00 20 29 02 0E";
 const enum FaderBank {
@@ -194,7 +193,6 @@ class LaunchPad {
 
       // We want to access these in the Layers.
       ext.cursorClip.getLoopLength().markInterested();
-
     }
 
     // Grid orientation.
@@ -273,7 +271,6 @@ class LaunchPad {
 
       ext.transport.isClipLauncherOverdubEnabled().addValueObserver((enabled) => {
         ext.buttons.getButton(Button.Record).setColour(enabled ? Colours.Bitwig : Colours.Deselected).draw(this.state.orientation);
-        Layer.getCurrent().updateRecordingState();
       });
 
       ext.transport.isMetronomeEnabled().addValueObserver((v) => {
@@ -292,7 +289,6 @@ class LaunchPad {
       });
 
       ext.transport.getPosition().markInterested();
-      ext.cursorTrack.arm().markInterested();
       ext.cursorTrack.isStopped().markInterested();
     }
 
@@ -361,10 +357,10 @@ class LaunchPad {
         // Track Buttons
         track.addIsSelectedInEditorObserver((v) => {
           Layers.Session.setTrackToggle(trackIdx, v);
-          Layer.getCurrent().updateRecordingState();
         });
         track.arm().addValueObserver((v) => {
           Layers.RecordArm.setTrackToggle(trackIdx, v);
+          Layer.getCurrent().updateClipRecordingState();
           // Update Grid
           for (let slotIdx = 0; slotIdx < LaunchPad.numScenes; slotIdx++) {
             const slot = slotBank.getItemAt(slotIdx);
@@ -376,7 +372,6 @@ class LaunchPad {
               }
             }
           }
-          Layer.getCurrent().updateRecordingState();
         });
         track.mute().addValueObserver((v) => {
           Layers.Mute.setTrackToggle(trackIdx, v);
@@ -420,7 +415,6 @@ class LaunchPad {
             cell.setStopped(false);
           }
           cell.draw(this.state.orientation);
-          Layer.getCurrent().updateRecordingState();
         });
 
         slotBank.addPlaybackStateObserver((slotIdx, playbackState, isQueued) => {
@@ -441,7 +435,6 @@ class LaunchPad {
               cell.setRecording(isQueued);
               break;
           }
-          Layer.getCurrent().updateRecordingState();
           cell.draw(this.state.orientation);
         });
 
@@ -458,43 +451,13 @@ class LaunchPad {
       }
     }
 
-    // Selected Device.
+    // Cursor Track/Slot.
     {
-      ext.cursorRemote.pageCount().addValueObserver((v) => {
-        Layers.Device.setPages(v);
-      }, 0);
-
-      ext.cursorRemote.selectedPageIndex().addValueObserver((v) => {
-        Layers.Device.setPageIdx(v);
-      }, -1);
-
-      for (let controlIdx = 0; controlIdx < LaunchPad.numTracks; controlIdx++) {
-        ext.cursorRemote.getParameter(controlIdx).exists().addValueObserver((v) => {
-          ext.launchPad.stopFaders(FaderBank.Device);
-
-          let msg = `${SysexPrefix} 01 03 ${Layer.getCurrent().getOrientation()} `;
-          const colour = v ? "35" : "00";
-          msg += `0${controlIdx} 00 3${controlIdx} ${colour} F7`;
-          ext.midiDawOut.sendSysex(msg);
-
-          // Update Value.
-          const level = (ext.cursorRemote.getParameter(controlIdx).value().get() * 127) | 0;
-          ext.midiDawOut.sendMidi(180, controlIdx + 0x30, level);
-        });
-
-        ext.cursorRemote.getParameter(controlIdx).value().addValueObserver(128, (v) => {
-          Layers.Device.setTrackFader(controlIdx, v);
-          ext.midiDawOut.sendMidi(180, controlIdx + 0x30, v);
-        });
-      }
-    }
-
-    // Track Selected Slot.
-    {
+      ext.cursorTrack.arm().addValueObserver((v) => {
+        Layer.getCurrent().updateClipRecordingState();
+      });
 
       ext.cursorClip.clipLauncherSlot().sceneIndex().markInterested();
-      ext.cursorClip.clipLauncherSlot().isRecording().markInterested();
-      ext.cursorClip.clipLauncherSlot().isRecordingQueued().markInterested();
 
       ext.cursorClip.clipLauncherSlot().isSelected().addValueObserver((v) => {
         Layer.selectedSlotHasContent = v;
@@ -504,6 +467,13 @@ class LaunchPad {
       ext.cursorClip.clipLauncherSlot().hasContent().addValueObserver((v) => {
         Layer.selectedSlotHasContent = v;
         Layer.getCurrent().updateNotesLayout();
+      });
+
+      ext.cursorClip.clipLauncherSlot().isRecording().addValueObserver((v) => {
+        Layer.getCurrent().updateClipRecordingState();
+      });
+      ext.cursorClip.clipLauncherSlot().isRecordingQueued().addValueObserver((v) => {
+        Layer.getCurrent().updateClipRecordingState();
       });
     }
 
@@ -540,6 +510,38 @@ class LaunchPad {
         drumPad.color().addValueObserver((r, g, b) => {
           const colour = Colour.fromRGBFloat([r, g, b]);
           ext.drumPads.getPad(padIdx).setColour(colour).draw();
+        });
+      }
+    }
+
+
+    // Selected Device.
+    {
+      ext.cursorRemote.pageCount().addValueObserver((v) => {
+        Layers.Device.setPages(v);
+      }, 0);
+
+      ext.cursorRemote.selectedPageIndex().addValueObserver((v) => {
+        Layers.Device.setPageIdx(v);
+      }, -1);
+
+      for (let controlIdx = 0; controlIdx < LaunchPad.numTracks; controlIdx++) {
+        ext.cursorRemote.getParameter(controlIdx).exists().addValueObserver((v) => {
+          ext.launchPad.stopFaders(FaderBank.Device);
+
+          let msg = `${SysexPrefix} 01 03 ${Layer.getCurrent().getOrientation()} `;
+          const colour = v ? "35" : "00";
+          msg += `0${controlIdx} 00 3${controlIdx} ${colour} F7`;
+          ext.midiDawOut.sendSysex(msg);
+
+          // Update Value.
+          const level = (ext.cursorRemote.getParameter(controlIdx).value().get() * 127) | 0;
+          ext.midiDawOut.sendMidi(180, controlIdx + 0x30, level);
+        });
+
+        ext.cursorRemote.getParameter(controlIdx).value().addValueObserver(128, (v) => {
+          Layers.Device.setTrackFader(controlIdx, v);
+          ext.midiDawOut.sendMidi(180, controlIdx + 0x30, v);
         });
       }
     }
