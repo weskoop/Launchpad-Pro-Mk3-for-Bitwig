@@ -148,6 +148,7 @@ class LaunchPad {
             Layer.setOrientation(this.state.orientation);
             break;
           case "Follow Bitwig":
+            // Looks weird, but a quick double toggle is right here :P.
             ext.app.nextPanelLayout();
             ext.app.nextPanelLayout();
             break;
@@ -155,6 +156,7 @@ class LaunchPad {
       });
 
       ext.prefs.panOrientation = prefs.getEnumSetting("Pan Faders", "Grid", PrefPanFader, PrefPanFader[0]);
+      ext.prefs.rainbowMode = prefs.getBooleanSetting("Rainbow Faders", "Grid", false);
 
       ext.prefs.scenesIndication = prefs.getBooleanSetting("Scenes", "Indicators", false);
       ext.prefs.scenesIndication.addValueObserver((v) => {
@@ -389,6 +391,10 @@ class LaunchPad {
         track.color().addValueObserver((r, g, b) => {
           const colour = Colour.fromRGBFloat([r, g, b]);
           Layer.setTrackColour(trackIdx, colour);
+
+          // Set Fader Colours (Volume and Pan)
+          ext.midiDawOut.sendMidi(181, trackIdx, colour.idx);
+          ext.midiDawOut.sendMidi(181, trackIdx + 0x10, colour.idx);
         });
 
         // Track's Sendbank
@@ -530,10 +536,8 @@ class LaunchPad {
         ext.cursorRemote.getParameter(controlIdx).exists().addValueObserver((v) => {
           ext.launchPad.stopFaders(FaderBank.Device);
 
-          let msg = `${SysexPrefix} 01 03 ${Layer.getCurrent().getOrientation()} `;
-          const colour = v ? "35" : "00";
-          msg += `0${controlIdx} 00 3${controlIdx} ${colour} F7`;
-          ext.midiDawOut.sendSysex(msg);
+          const colour = ext.prefs.rainbowMode.get() ? DeviceColours[controlIdx] : Colours.Device;
+          ext.midiDawOut.sendMidi(181, controlIdx + 0x30, v ? colour.idx : 0);
 
           // Update Value.
           const level = (ext.cursorRemote.getParameter(controlIdx).value().get() * 127) | 0;
@@ -594,8 +598,9 @@ class LaunchPad {
       case FaderBank.Volume: {
         let msg = `${SysexPrefix} 01 00 ${Layer.getCurrent().getOrientation()} `;
         for (let trackIdx = 0; trackIdx < LaunchPad.numTracks; trackIdx++) {
-          const colour = ext.trackBank.getItemAt(trackIdx).exists().get() ? "15" : "00";
-          msg += `0${trackIdx} 00 0${trackIdx} ${colour}`;
+          const colour = ext.prefs.rainbowMode.get() ? Layer.trackColours[trackIdx].str : "15";
+          const enabled = ext.trackBank.getItemAt(trackIdx).exists().get();
+          msg += `0${trackIdx} 00 0${trackIdx} ${enabled ? colour : "00"}`;
         }
         msg += `F7`;
         ext.midiDawOut.sendSysex(msg);
@@ -605,8 +610,9 @@ class LaunchPad {
         const o = ext.prefs.panOrientation.get() == "Horizontal Only" ? "01" : Layer.getCurrent().getOrientation()
         let msg = `${SysexPrefix} 01 01 ${o} `;
         for (let trackIdx = 0; trackIdx < LaunchPad.numTracks; trackIdx++) {
-          const colour = ext.trackBank.getItemAt(trackIdx).exists().get() ? "25" : "00";
-          msg += `0${trackIdx} 01 1${trackIdx} ${colour}`;
+          const colour = ext.prefs.rainbowMode.get() ? Layer.trackColours[trackIdx].str : "25";
+          const enabled = ext.trackBank.getItemAt(trackIdx).exists().get();
+          msg += `0${trackIdx} 01 1${trackIdx} ${enabled ? colour : "00"}`;
         }
         msg += `F7`;
         ext.midiDawOut.sendSysex(msg);
@@ -625,8 +631,9 @@ class LaunchPad {
       case FaderBank.Device: {
         let msg = `${SysexPrefix} 01 03 ${Layer.getCurrent().getOrientation()} `;
         for (let controlIdx = 0; controlIdx < LaunchPad.numTracks; controlIdx++) {
-          const colour = ext.cursorRemote.getParameter(controlIdx).exists().get() ? "35" : "00";
-          msg += `0${controlIdx} 00 3${controlIdx} ${colour}`;
+          const colour = ext.prefs.rainbowMode.get() ? DeviceColours[controlIdx].str : "35";
+          const enabled = ext.cursorRemote.getParameter(controlIdx).exists().get();
+          msg += `0${controlIdx} 00 3${controlIdx} ${enabled ? colour : "00"}`;
         }
         msg += `F7`;
         ext.midiDawOut.sendSysex(msg);

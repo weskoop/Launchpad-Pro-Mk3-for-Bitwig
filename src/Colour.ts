@@ -153,11 +153,13 @@ const ColourMap: RGB[] = [
 class Colour {
   public idx: number;
   public rgb: RGB;
+  public str: string;
 
   // You probably want Colour.fromMap, Colour.fromRGBInt or Colour.fromRGBFloat
   constructor(idx: number = 0, rgb: RGB = ColourMap[idx]) {
     this.idx = idx;
     this.rgb = rgb;
+    this.str = ('0' + idx.toString(16)).slice(-2);
   }
 
   public static fromMap(idx: number): Colour {
@@ -254,3 +256,14 @@ const Colours = {
   StopClip: new Colour(61),
   StopClipDim: new Colour(63),
 }
+
+const DeviceColours: Colour[] = [
+  new Colour(5),
+  new Colour(9),
+  new Colour(13),
+  new Colour(21),
+  new Colour(25),
+  new Colour(41),
+  new Colour(49),
+  new Colour(57),
+];
