@@ -146,9 +146,6 @@ class DeviceLayer extends Layer {
     colours.fill(Colours.Off, 0, LaunchPad.numTracks);
     colours.fill(Colours.DeviceDim, 0, this.parameterPages);
     ext.buttons.setEachSceneButtonColour(colours, Colours.Device, o);
-    if (this.parameterPageIdx > -1) {
-      ext.buttons.getSceneButton(this.parameterPageIdx).setSelected(true).draw(o);
-
-    }
+    ext.buttons.getSceneButton(this.parameterPageIdx).setSelected(this.parameterPageIdx > -1).draw(o);
   }
 }
