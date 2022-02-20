@@ -24,6 +24,7 @@ class SendsLayer extends Layer {
   // Unfortunately we need to handle state and data for the SendBank.
   // [trackIdx][sendIdx]
   public sendFaders: number[][] = [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]]; // lol
+  public sendColours: Colour[] = [new Colour, new Colour, new Colour, new Colour, new Colour, new Colour, new Colour, new Colour];
 
   activate() {
     ext.launchPad.setLayout(Layout.Fader, FaderBank.Sends);
@@ -37,6 +38,40 @@ class SendsLayer extends Layer {
   deactivate() {
     ext.launchPad.stopFaders(FaderBank.Sends);
   }
+
+  setSendColour(idx: number, colour: Colour) {
+    this.sendColours[idx] = colour;
+    this.updateSendColours();
+  }
+
+  getCurrentSendColour(): Colour {
+    if (this.sendPageIdx < this.sendPages) {
+      return this.sendColours[this.sendPageIdx];
+    }
+    return new Colour(0);
+  }
+
+  updateSendColours() {
+    if (Layer.getCurrent() == this && ext.prefs.rainbowFaders.get()) {
+      ext.launchPad.setFaderBank(FaderBank.Sends);
+
+      // Show Available Colours.
+      const o = this.getOrientation();
+      if (ext.prefs.rainbowFaders.get()) {
+        this.sendColours.fill(Colours.Off, this.sendPages, LaunchPad.numTracks - this.sendPages);
+        ext.buttons.setEachSceneButtonColour(this.sendColours, Colours.Selected, o);
+      } else {
+        let colours = new Array<Colour>(LaunchPad.numTracks);
+        colours.fill(Colours.Off, 0, LaunchPad.numTracks);
+        colours.fill(Colours.SendsDim, 0, this.sendPages);
+        ext.buttons.setEachSceneButtonColour(colours, Colours.Sends, o);
+      }
+
+      const selected = (this.sendPages > 0 && this.sendPageIdx < this.sendPages);
+      ext.buttons.getSceneButton(this.sendPageIdx).setSelected(selected).draw(o);
+    }
+  }
+
 
   updateSceneColours() {
     // Do nothing.
@@ -87,6 +122,7 @@ class SendsLayer extends Layer {
   updateSendScrolling() {
     Layer.setScroll("sendsUp", this.sendPageIdx > 0);
     Layer.setScroll("sendsDown", this.sendPageIdx < (this.sendPages - 1));
+    this.updateSendColours();
   }
 
   setPages(count: number) {
@@ -231,12 +267,6 @@ class SendsLayer extends Layer {
       sendsDown.draw(o);
     }
 
-    // Show Available Colours.
-    let colours = new Array<Colour>(LaunchPad.numTracks);
-    colours.fill(Colours.Off, 0, LaunchPad.numTracks);
-    colours.fill(Colours.SendsDim, 0, this.sendPages);
-    ext.buttons.setEachSceneButtonColour(colours, Colours.Sends, o);
-    const selected = (this.sendPages > 0 && this.sendPageIdx < this.sendPages);
-    ext.buttons.getSceneButton(this.sendPageIdx).setSelected(selected).draw(o);
+    this.updateSceneColours();
   }
 }
