@@ -232,7 +232,21 @@ class SessionLayer extends Layer {
     if (Layer.isButtonHeld(Button.Shift)) {
       return;
     }
+    
     ext.trackBank.getItemAt(idx).selectInMixer();
+    
+    if (!ext.transport.isArrangerRecordEnabled().get()) {
+      // Recording is disabled, we don't need the workaround below
+      return;
+    }
+
+    for (let i = 0; i < ext.trackBank.channelCount().get(); i++) {
+      if ((i === idx) && ext.prefs.ensureRecordArming) {
+        ext.trackBank.getItemAt(idx).arm().set(true)
+      } else if (ext.prefs.ensureOnlyOneIsArmed) {
+        ext.trackBank.getItemAt(i).arm().set(false)
+      }
+    }
   }
 
   onScenePush(idx: number) {

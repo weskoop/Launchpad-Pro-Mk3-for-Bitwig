@@ -169,6 +169,9 @@ class LaunchPad {
           ext.trackBank.getItemAt(trackIdx).clipLauncherSlotBank().setIndication(v);
         }
       });
+
+      ext.prefs.ensureRecordArming = prefs.getBooleanSetting("Ensure track arming works in arranger mode", "Record Arming Workaround", false);
+      ext.prefs.ensureOnlyOneIsArmed = prefs.getBooleanSetting("Ensure non-selected tracks are disarmed in arranger mode", "Record Arming Workaround", false);
     }
 
     // Setup some more random toggles.
@@ -195,6 +198,9 @@ class LaunchPad {
 
       // We want to access these in the Layers.
       ext.cursorClip.getLoopLength().markInterested();
+      
+      ext.trackBank.channelCount().markInterested();
+      ext.transport.isArrangerRecordEnabled().markInterested();
     }
 
     // Grid orientation.
