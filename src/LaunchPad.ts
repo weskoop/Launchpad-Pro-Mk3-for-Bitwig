@@ -156,7 +156,7 @@ class LaunchPad {
       });
 
       ext.prefs.panOrientation = prefs.getEnumSetting("Pan Faders", "Grid", PrefPanFader, PrefPanFader[0]);
-      ext.prefs.rainbowFaders = prefs.getBooleanSetting("Rainbow Faders", "Grid", false);
+      ext.prefs.rainbowFaders = prefs.getBooleanSetting("Rainbow Faders (Use Track/Device/Send Colours)", "Grid", false);
 
       ext.prefs.scenesIndication = prefs.getBooleanSetting("Scenes", "Indicators", false);
       ext.prefs.scenesIndication.addValueObserver((v) => {
