@@ -33,9 +33,10 @@ Enjoy!
        - **Mix** view matches the standard Launchpad orientation. Most of this documentation will refer to Mix orientation.
        - **Arrange** will be rotated to match the clip launcher in the Arrange View of Bitwig. The navigation arrows will adjust automatically. *Note that this will also swap the Track Selection Buttons with the Scene Launch buttons on the Launchpad UI. This is mostly a non issue, except in the standalone Launchpad modes, the scene buttons are disabled.*
        - **Follow Bitwig** Will swap between Arrange and Mix orientations as you change the view in Ableton or with the Launchpad (**Shift + •** and **Shift + ••**).
-   - **Grid > Pan Fader**: Control the orientation of the Pan Faders
+   - **Grid > Pan Faders**: Control the orientation of the Pan Faders
      - **Follow Orientation** will match the Grid Orientation option above; this will make the fader match the orientation of the Volume Faders, depending on Mix or Arrange view. When they are vertical, **Fader Up = Pan Right** and **Fader Down = Pan Left**.
      - **Horizontal Only**, left is left, right is right.
+   - **Rainbow Faders**: Toggle On to show the track/send/device control colours on the Fader displays.
    - **Indicators > Scene / Slots**: Will show you, in Bitwig, which scenes and slots are reflected on the LaunchPad.
 
 ## How to Use
