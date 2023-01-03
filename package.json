@@ -1,6 +1,6 @@
 {
   "name": "launchpad-pro-mk3-bitwig-controller",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Novation Launchpad Pro Mk3 controller script for Bitwig Studio",
   "main": "dist/Launchpad-Pro-Mk3.control.js",
   "scripts": {
