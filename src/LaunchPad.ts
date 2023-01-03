@@ -129,7 +129,7 @@ class LaunchPad {
       ext.cursorRemote = ext.cursorDevice.createCursorRemoteControlsPage(8);
 
       // These are for Drum mode.
-      ext.cursorTrackFirstDevice = ext.cursorTrack.createCursorDevice("First Device", "First Device", 0, com.bitwig.extension.controller.api.CursorDeviceFollowMode.FIRST_DEVICE);
+      ext.cursorTrackFirstDevice = ext.cursorTrack.createCursorDevice("First Instrument", "First Instrument", 0, com.bitwig.extension.controller.api.CursorDeviceFollowMode.FIRST_INSTRUMENT);
       ext.cursorDrumPadBank = ext.cursorTrackFirstDevice.createDrumPadBank(LaunchPad.numDrumPads);
     }
 
