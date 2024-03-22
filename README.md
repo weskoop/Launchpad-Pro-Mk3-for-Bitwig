@@ -1,3 +1,10 @@
+# ⚠️ Bitwig 5.0+ natively supports the Launchpad Pro Mk3 ⚠️
+My job here is done, in light of official support for the LP Pro Mk3, I'm no longer updating this script or answering issues. You are welcome to fork the project and apply your own changes as you desire! If you would like features added to the Official script, contact Bitwig directly.
+
+Thanks everyone for using it, it was fun to build.
+
+-wes
+
 # Launchpad Pro Mk3 for Bitwig (Bitwig Controller Script)
 
 A Bitwig controller script that matches (and expands) the functionality that Novation and Ableton provide for Live. It was implemented based on the Launchpad Pro Mk3 manual feature descriptions, so the Launchpad will do what it says on the buttons. 
