@@ -1,4 +1,4 @@
-# ⚠️ Bitwig 5.0+ natively supports the Launchpad Pro Mk3 ⚠️
+# ⚠️ Bitwig 5.0+ natively supports the Launchpad Pro Mk3
 My job here is done, in light of official support for the LP Pro Mk3, I'm no longer updating this script or answering issues. You are welcome to fork the project and apply your own changes as you desire! If you would like features added to the Official script, contact Bitwig directly.
 
 Thanks everyone for using it, it was fun to build.
